@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.prefs.Preferences;
 import java.util.Random;
-import java.util.TimerTask;
+import java.io.*;
 
 public class Application extends JFrame {
     private static final String WIDTH_KEY = "width";
@@ -16,6 +16,7 @@ public class Application extends JFrame {
     private static final int NUM_PIANONI = 3;
     private static JTextArea auto;
     private Preferences preferences;
+    private  static Timer timer;
 
     public Application() {
         super();
@@ -46,8 +47,10 @@ public class Application extends JFrame {
         JMenuBar menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("File");
         JMenuItem start = new JMenuItem("start Simulator");
-        JMenuItem save = new JMenuItem("save");
+        JMenuItem fine = new JMenuItem("fine Simulator");
+        JMenuItem save = new JMenuItem("Save");
         fileMenu.add(start);
+        fileMenu.add(fine);
         fileMenu.add(save);
         menuBar.add(fileMenu);
         setJMenuBar(menuBar);
@@ -82,6 +85,12 @@ public class Application extends JFrame {
         start.addActionListener(e->{
             addCar();
         });
+        save.addActionListener(e1->{
+            save();
+        });
+        fine.addActionListener(e2->{
+            fineSimulator();
+        });
         
 
         cp.add(carPanel);
@@ -89,7 +98,7 @@ public class Application extends JFrame {
         pack();
     }
    private void addCar() {
-        Timer timer = new Timer(2000, new ActionListener() {
+        timer = new Timer(2000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String[] stringtarga = {"A", "B", "1", "E", "Y", "4", "6"};
@@ -101,10 +110,10 @@ public class Application extends JFrame {
                 }
                 Auto nuovaAuto = new Auto(stringTarga);
     
-                Component[] componenti = cp.getComponents();
-                for (Component componente : componenti) {
-                    if (componente instanceof JPanel) {
-                        Component[] component = ((JPanel) componente).getComponents();
+                Component[] components = cp.getComponents();
+                for (Component varcomponents : components) {
+                    if (varcomponents instanceof JPanel) {
+                        Component[] component = ((JPanel) varcomponents).getComponents();
                         for (Component subcomponent : component) {
                             if (subcomponent instanceof JTextArea) {
                                 JTextArea autoTextArea = (JTextArea) subcomponent;
@@ -126,10 +135,42 @@ public class Application extends JFrame {
         });
         timer.start();
     }
+    private void fineSimulator(){
+        timer.stop();
+        JOptionPane.showMessageDialog(this, "Fine simulazione");
+    }
 
-    
-    
-        
+
+
+
+    public void save() {
+        JFileChooser fileChooser = new JFileChooser();
+        int result = fileChooser.showSaveDialog(this);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File file = fileChooser.getSelectedFile();
+            try {
+                FileWriter fileWriter = new FileWriter(file);
+                Component[] components = cp.getComponents();
+                for (Component varcomponent : components) {
+                    if (varcomponent instanceof JPanel) {
+                        Component[] subComponents = ((JPanel) varcomponent).getComponents();
+                        for (Component varComponent : subComponents) {
+                            if (varComponent instanceof JTextArea) {
+                                JTextArea auto = (JTextArea) varComponent;
+                                if (auto.getText().contains("Occupato")) {
+                                    String targa = auto.getText().substring(auto.getText().lastIndexOf("Targa: ") + 7);
+                                    fileWriter.write(targa.trim() + "\n");
+                                }
+                            }
+                        }
+                    }
+                }
+                fileWriter.close();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        }
+    } 
 
     //metodo che utilizza i thread per liberare i posti auto occupati.
     private void avviaThreadAutoLibere() {
