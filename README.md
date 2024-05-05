@@ -14,6 +14,7 @@ Questa applicazione Java simula un parcheggio con più livelli e posti auto. Con
 4. Utilizzare il menu "File" per avviare il simulatore o salvare lo stato attuale dell'applicazione.
 5. Una volta avviato il simulatore, le auto verranno aggiunte automaticamente ai posti auto disponibili.
 6. I posti auto occupati verranno liberati periodicamente dalla simulazione.
+7. Per terminare la simulazione utilizzare il menu "File" e selezionare termina simulazione.
 
 ## File
 - **Application.java**: Contiene il codice principale dell'applicazione, inclusa la configurazione dell'interfaccia grafica, la simulazione del parcheggio e la gestione delle preferenze.
