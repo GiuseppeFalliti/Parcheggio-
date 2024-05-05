@@ -196,14 +196,14 @@ public class Application extends JFrame {
             daLiberare[i] = random.nextBoolean();
         }
     
-        Component[] componenti = cp.getComponents();
+        Component[] components = cp.getComponents();
         int postoCorrente = 0;
-        for (Component componente : componenti) {
-            if (componente instanceof JPanel) {
-                Component[] component = ((JPanel) componente).getComponents();
-                for (Component subcomponent : component) {
-                    if (subcomponent instanceof JTextArea) {
-                        JTextArea auto = (JTextArea) subcomponent;
+        for (Component varcomponents : components) {
+            if (varcomponents instanceof JPanel) {
+                Component[] subcomponents = ((JPanel) varcomponents).getComponents();
+                for (Component varcomponent : subcomponents) {
+                    if (varcomponents instanceof JTextArea) {
+                        JTextArea auto = (JTextArea) varcomponent;
                         if (auto.getText().contains("Occupato") && daLiberare[postoCorrente]) {
                             auto.setText("Piano " + auto.getName() + ", Posto " + auto.getName() + "\n" + "Libero");
                             auto.setBackground(Color.GREEN);
