@@ -110,13 +110,13 @@ public class Application extends JFrame {
                 }
                 Auto nuovaAuto = new Auto(stringTarga);
     
-                Component[] components = cp.getComponents();
+                Component[] components = cp.getComponents(); //Otteniamo un array di tutti i componenti del Frame.
                 for (Component varcomponents : components) {
-                    if (varcomponents instanceof JPanel) {
-                        Component[] component = ((JPanel) varcomponents).getComponents();
+                    if (varcomponents instanceof JPanel) { // Controlla se il componente attuale è un JPanel.
+                        Component[] component = ((JPanel) varcomponents).getComponents(); //creazione di  un array di tutti i componenti del JPanel.
                         for (Component subcomponent : component) {
-                            if (subcomponent instanceof JTextArea) {
-                                JTextArea autoTextArea = (JTextArea) subcomponent;
+                            if (subcomponent instanceof JTextArea) { //Controllo se il componente attuale è una JTextarea.
+                                JTextArea autoTextArea = (JTextArea) subcomponent; 
                                 synchronized (autoTextArea) {
                                     if (autoTextArea.getText().contains("Libero")) {
                                         autoTextArea.setText("Piano " + autoTextArea.getName() + ", Posto " + autoTextArea.getName() + "\n");
@@ -139,8 +139,6 @@ public class Application extends JFrame {
         timer.stop();
         JOptionPane.showMessageDialog(this, "Fine simulazione");
     }
-
-
 
 
     public void save() {
